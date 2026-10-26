@@ -90,7 +90,10 @@ class DocumentControllerTest {
                 get("/api/lab/insecure/documents/{id}", documentId)
                         .header("Authorization", basicAuth(OTHER_USER_ID))
         )
-		.andDo(print())
+		.andDo(result -> System.out.println(
+    "Insecure endpoint HTTP status: "
+        + result.getResponse().getStatus()
+))
                 .andExpect(status().isOk())
                 .andExpect(content().string(containsString("Private document")));
     }
@@ -107,7 +110,10 @@ class DocumentControllerTest {
                 get("/api/documents/{id}", documentId)
                         .header("Authorization", basicAuth(OTHER_USER_ID))
         )
-		.andDo(print())
+		.andDo(result -> System.out.println(
+    "Secure endpoint HTTP status: "
+        + result.getResponse().getStatus()
+))
                 .andExpect(status().isNotFound());
     }
 
